@@ -25,8 +25,12 @@ vim.opt.cursorline = true
 vim.g.markdown_syntax_conceal = 0
 vim.g.neovide_refresh_rate = 60
 vim.g.neovide_refresh_rate_idle = 5
+vim.opt.relativenumber = true
+-- vim.opt.wrap = false
+-- vim.opt.linebreak = false
+-- vim.opt.breakindent = false
 -- vim.g.neovide_fullscreen = true
-vim.cmd([[autocmd ColorScheme * highlight Comment guifg=#9ACD32]]) -- 修改注释颜色
+-- vim.cmd([[autocmd ColorScheme * highlight Comment guifg=#9ACD32]]) -- 修改注释颜色
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "cpp" },
 	callback = function()

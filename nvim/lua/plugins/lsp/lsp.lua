@@ -7,7 +7,6 @@ return {
 	},
 	config = function()
 		-- import lspconfig plugin
-		local lspconfig = require("lspconfig")
 
 		-- import cmp-nvim-lsp plugin
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -70,12 +69,12 @@ return {
 		-- end
 
 		-- configure html server
-		lspconfig["html"].setup({
+		vim.lsp.config("html", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
-		lspconfig["clangd"].setup({
+		vim.lsp.config("clangd", {
 			cmd = {
 				"clangd",
 				"--clang-tidy",
@@ -84,12 +83,13 @@ return {
 				"--fallback-style=Google",
 				"-header-insertion=never",
 			},
-			filetypes = { "c", "cpp", "c++" },
+			filetypes = { "c", "cpp", "c++", "cc" },
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
+		vim.lsp.enable("clangd")
 
-		lspconfig["jdtls"].setup({
+		vim.lsp.config("jdtls", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
@@ -99,25 +99,20 @@ return {
 		-- 	on_attach = on_attach,
 		-- })
 
-		lspconfig["vtsls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		-- configure css server
-		lspconfig["cssls"].setup({
+		vim.lsp.config("vtsls", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
 		-- configure python server
-		lspconfig["pyright"].setup({
+		vim.lsp.config("basedpyright", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
+		vim.lsp.enable("basedpyright")
 
 		-- configure lua server (with special settings)
-		lspconfig["lua_ls"].setup({
+		vim.lsp.config("lua_ls", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = { -- custom settings for lua
@@ -136,5 +131,6 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable("lua_ls")
 	end,
 }

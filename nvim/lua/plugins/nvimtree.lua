@@ -3,35 +3,9 @@ return {
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
 	},
-	-- config = function()
-	-- 	local nvimtree = require("nvim-tree")
-	-- 	-- local devicons = require("nvim-web-devicons")
-	--
-	-- 	nvimtree.setup({
-	-- 		sort_by = "case_sensitive",
-	-- 		renderer = {
-	-- 			group_empty = true,
-	-- 			icons = {
-	-- 				git_placement = "after",
-	-- 			},
-	-- 		},
-	-- 		filters = {
-	-- 			dotfiles = false,
-	-- 			git_clean = false,
-	-- 		},
-	-- 		reload_on_bufenter = true,
-	-- 		hijack_cursor = false,
-	-- 		update_focused_file = {
-	-- 			enable = true,
-	-- 		},
-	-- 		git = {
-	-- 			ignore = false,
-	-- 		},
-	-- 	})
-	-- end,
 	opts = {
 		view = {
-			width = 40,
+			width = 30,
 		},
 		sort_by = "case_sensitive",
 		renderer = {
@@ -48,11 +22,15 @@ return {
 		hijack_cursor = false,
 		update_focused_file = {
 			enable = true,
+			update_root = false
 		},
 		git = {
 			ignore = false,
 		},
-		respect_buf_cwd = true,
-		update_cwd = true,
+		sync_root_with_cwd = true,
+		-- 禁用git根目录检测
+		prefer_startup_root = false
+		-- respect_buf_cwd = true,
+		-- update_cwd = true,
 	},
 }

@@ -1,6 +1,6 @@
 return {
 	"nvimdev/dashboard-nvim",
-	enabled = false,
+	enabled = true,
 	event = "VimEnter", -- 在 Neovim 启动时自动加载
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
@@ -23,12 +23,6 @@ return {
 					key = "f",
 				},
 				{
-					desc = " Projects",
-					group = "DiagnosticHint",
-					action = "Telescope projects",
-					key = "p",
-				},
-				{
 					desc = " dotfiles",
 					group = "Number",
 					action = function()
@@ -41,6 +35,7 @@ return {
 				},
 			},
 			mru = { limit = 6 },
+			footer = {},
 			project = {
 				enable = false,
 				limit = 5,

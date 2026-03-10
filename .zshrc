@@ -1,6 +1,18 @@
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:/home/ryan1iu/miniconda3/bin:$PATH
 export EDITOR='nvim'
-export LIBGL_ALWAYS_SOFTWARE=1 # 禁用wslg硬件加速
+#export LIBGL_ALWAYS_SOFTWARE=1 # 禁用wslg硬件加速
+export TERM=xterm-256color
+
+setopt AUTO_CD
+setopt HIST_IGNORE_ALL_DUPS
+setopt SHARE_HISTORY
+setopt EXTENDED_GLOB
+
+autoload -Uz compinit
+compinit
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
 HISTFILE=~/.zsh_history # 保存历史记录的文件
 
 # 保留的历史命令条数
@@ -54,3 +66,9 @@ source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.
 
 # Add conda to shell
 source ~/miniconda3/etc/profile.d/conda.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/ryan1iu/y/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ryan1iu/y/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/ryan1iu/y/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ryan1iu/y/google-cloud-sdk/completion.zsh.inc'; fi

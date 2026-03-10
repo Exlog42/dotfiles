@@ -1,111 +1,98 @@
-# Set mod key (Mod1=<Alt>, Mod4=<Super>)
-set $mod Mod1
-bindsym $mod+Tab workspace next
-bindsym $mod+Shift+Tab workspace prev
-# set default desktop layout (default is tiling)
-#<stacking|tabbed>
-#workspace_layout tabbed 
+#######################################################################
+# i3 窗口管理器配置文件 (Optimized for Arch Linux)
+#######################################################################
 
-# Configure border style <normal|1pixel|pixel xx|none|pixel>
+### 1. 基础设置 ###
+# 定义超级键 (Mod1 为 Alt)
+set $mod Mod1
+# 设置默认字体
+font pango:monospace 10 
+# 允许使用鼠标拖拽浮动窗口
+floating_modifier $mod
+# 焦点跟随鼠标
+focus_follows_mouse yes
+# 工作区自动来回切换 (按下当前工作区快捷键时返回上一个工作区)
+workspace_auto_back_and_forth yes
+
+### 2. 外观与窗口风格 ###
+# 默认边框样式 (像素边框，无标题栏)
 default_border pixel 3
 default_floating_border none
-
-font pango:monospace 10 
-
-# Hide borders
+# 隐藏屏幕边缘边框
 hide_edge_borders none
+# 智能间距与智能边框 (仅当有多个窗口时才显示间距/边框)
+smart_gaps on
+smart_borders on
+# 聚焦窗口颜色设定
+client.focused #4c7899 #285577 #FFFFFF #233f66 #233f66
 
-# change borders
-bindsym $mod+u border none
-bindsym $mod+y border pixel 3
-bindsym $mod+n border normal
-
-# Use Mouse+$mod to drag floating windows
-floating_modifier $mod
-
-# start a terminal
+### 3. 系统核心快捷键 ###
+# 启动终端
 bindsym $mod+Return exec alacritty
-
-# kill focused window
+# 关闭当前聚焦窗口
 bindsym $mod+q kill
+# 启动应用启动器 (Rofi)
+bindsym $mod+d exec --no-startup-id rofi -dpi 144 -show drun 
+# 重载 i3 配置文件
+bindsym $mod+Shift+c reload
+# 重启 i3 (保留当前布局和会话，常用于更新 i3 后)
+bindsym $mod+Shift+r restart
 
-# start program launcher
-bindsym $mod+d exec --no-startup-id rofi -dpi 192 -show drun 
-
-exec --no-startup-id start-pulseaudio-x11
-exec --no-startup-id pa-applet
-bindsym $mod+Ctrl+m exec pavucontrol
-
-# Screen brightness controls
+### 4. 硬件与多媒体控制 ###
+# 屏幕亮度控制
 bindsym XF86MonBrightnessUp exec brightnessctl s +5% 
 bindsym XF86MonBrightnessDown exec brightnessctl s 5%- 
+# 音量控制器面板
+bindsym $mod+Ctrl+m exec pavucontrol
+# 截图工具 (Flameshot)
+bindsym F1 exec env QT_SCALE_FACTOR=0.6666666 flameshot gui
 
-# screen shot
-bindsym F1 exec flameshot gui
-
-# change focus
-focus_follows_mouse yes
+### 5. 焦点与窗口移动 ###
+# 切换焦点 (Vim键位 & 方向键)
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# move focused window
+# 移动窗口 (Vim键位 & 方向键)
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+k move down
 bindsym $mod+Shift+j move up
 bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# workspace back and forth (with/without active container)
-workspace_auto_back_and_forth yes
-bindsym $mod+b workspace back_and_forth
-#bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
-
-# split orientation
-bindsym $mod+Ctrl+h split h;exec notify-send '水平'
-bindsym $mod+Ctrl+v split v;exec notify-send '垂直'
-# bindsym $mod+q split toggle
-
-# toggle fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
-
-# change container layout (stacked, tabbed, toggle split)
-#bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
-
-# toggle sticky
-bindsym $mod+Shift+s sticky toggle
-
-# focus the parent container
+# 聚焦到父容器
 bindsym $mod+a focus parent
 
-# move the currently focused window to the scratchpad
-bindsym $mod+Shift+minus move scratchpad
+### 6. 窗口布局与分割 ###
+# 水平/垂直分割窗口
+bindsym $mod+Ctrl+h split h; exec notify-send '水平分割'
+bindsym $mod+Ctrl+v split v; exec notify-send '垂直分割'
+# 全屏模式切换
+bindsym $mod+f fullscreen toggle
+# 布局切换 (标签页模式 / 切换分割)
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+# 浮动/平铺模式切换
+bindsym $mod+Shift+space floating toggle
+# 在浮动/平铺窗口间切换焦点
+bindsym $mod+space focus mode_toggle
+# 窗口置顶 (Sticky) 切换
+bindsym $mod+Shift+s sticky toggle
+# 动态修改边框样式
+bindsym $mod+u border none
+bindsym $mod+y border pixel 3
+bindsym $mod+n border normal
 
-# Show the next scratchpad window or hide the focused scratchpad window.
-# If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+minus scratchpad show
-
-# Workspace names
+### 7. 工作区管理 ###
+# 定义工作区变量
 set $ws1 1
 set $ws2 2
 set $ws3 3
@@ -114,8 +101,9 @@ set $ws5 5
 set $ws6 6
 set $ws7 7
 set $ws8 8
+set $ws9 9
 
-# switch to workspace
+# 切换工作区 (快捷键 / Tab循环)
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
@@ -124,8 +112,12 @@ bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+bindsym $mod+b workspace back_and_forth
 
-# Move focused container to workspace
+# 移动窗口到指定工作区 (保留在当前工作区)
 bindsym $mod+Ctrl+1 move container to workspace $ws1
 bindsym $mod+Ctrl+2 move container to workspace $ws2
 bindsym $mod+Ctrl+3 move container to workspace $ws3
@@ -134,8 +126,9 @@ bindsym $mod+Ctrl+5 move container to workspace $ws5
 bindsym $mod+Ctrl+6 move container to workspace $ws6
 bindsym $mod+Ctrl+7 move container to workspace $ws7
 bindsym $mod+Ctrl+8 move container to workspace $ws8
+bindsym $mod+Ctrl+9 move container to workspace $ws9
 
-# Move to workspace with focused container
+# 移动窗口到指定工作区 (跟随跳转)
 bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
 bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
@@ -144,85 +137,82 @@ bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
 bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
 
-# Open specific applications in floating mode
+### 8. 暂存区 (Scratchpad) ###
+# 将窗口移入暂存区 (隐藏)
+bindsym $mod+Shift+minus move scratchpad
+# 呼出/隐藏暂存区窗口 (循环展示)
+bindsym $mod+minus scratchpad show
+
+### 9. 特殊窗口规则 ###
+# 特定程序默认浮动
 for_window [class="(?i)virtualbox"] floating enable border normal
-
-# switch to workspace with urgent window automatically
+# 自动聚焦到发出紧急通知 (Urgent) 的窗口
 for_window [urgent=latest] focus
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
+### 10. 系统控制与特殊模式 ###
 
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-
-# Set shut down, restart and locking features
-# bindsym $mod+0 mode "$mode_system"
-# set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-# mode "$mode_system" {
-#     bindsym l exec --no-startup-id i3exit lock, mode "default"
-#     bindsym s exec --no-startup-id i3exit suspend, mode "default"
-#     bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-#     bindsym e exec --no-startup-id i3exit logout, mode "default"
-#     bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-#     bindsym r exec --no-startup-id i3exit reboot, mode "default"
-#     bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
-#
-#     # exit system mode: "Enter" or "Escape"
-#     bindsym Return mode "default"
-#     bindsym Escape mode "default"
-# }
-
-# Resize window (you can also use the mouse for that)
+# --- 调整窗口大小模式 ---
 bindsym $mod+r mode "resize"
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+        # 调整大小 (Vim键位)
         bindsym j resize shrink width 5 px or 5 ppt
         bindsym k resize grow height 5 px or 5 ppt
         bindsym l resize shrink height 5 px or 5 ppt
         bindsym semicolon resize grow width 5 px or 5 ppt
 
-        # same bindings, but for the arrow keys
+        # 调整大小 (方向键)
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
-        # exit resize mode: Enter or Escape
+        # 退出调整模式 (Enter 或 Esc)
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-client.focused          #4c7899 #285577 #FFFFFF #233f66 #233f66
-# Autostart applications
+
+# --- 系统电源管理模式 ---
+set $mode_system 系统: (l)锁屏, (e)注销, (s)睡眠, (r)重启, (Shift+s)关机
+# 绑定快捷键触发电源菜单
+bindsym $mod+0 mode "$mode_system"
+mode "$mode_system" {
+    bindsym l exec --no-startup-id ~/.config/i3/lock.sh, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
+
+    # 退出电源模式 (Enter 或 Esc)
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+### 11. 自启动项 (Autostart) ###
+
+# 系统权限认证代理
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore; sleep 1; picom -b 
-exec --no-startup-id nm-applet
-exec --no-startup-id redshift -l 38:114
-# exec --no-startup-id clipit
-exec --no-startup-id fcitx5
-exec --no-startup-id clash-verge
-# 智能布局
-exec_always --no-startup-id autotiling 
-# 高级手势识别工具
-exec --no-startup-id fusuma
-# 通知工具
-exec --no-startup-id dunst
-# 截图工具
-exec --no-startup-id flameshot
-# Polybar
+
+# UI 与状态栏
 exec_always --no-startup-id killall polybar; polybar
-# exec --no-startup-id blueman-applet
-# exec --no-startup-id xautolock -time 30 -locker blurlock
+exec --no-startup-id nitrogen --restore; sleep 1; picom -b 
+exec --no-startup-id dunst
 
-# hide/unhide i3status bar
-# bar {
-#     status_command i3status
-#     font pango:Sans 10
-# }
-# bindsym $mod+m bar mode toggle
+# 输入法与网络
+exec --no-startup-id fcitx5
+exec --no-startup-id nm-applet
+exec --no-startup-id clash-verge
 
-# Set inner/outer gaps
-gaps inner 8
-smart_gaps on
-smart_borders on
+# 护眼与外设控制
+exec --no-startup-id redshift
+exec --no-startup-id solaar --window=hide
+exec --no-startup-id libinput-gestures-setup autostart start
+
+# 电源与锁屏管理 (关闭默认的屏幕休眠，交由 xss-lock 接管)
+exec --no-startup-id xset -dpms s off
+exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
+
+# 启动 pulseaudio
+exec --no-startup-id start-pulseaudio-x11
+exec --no-startup-id pa-applet

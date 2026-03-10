@@ -17,7 +17,7 @@
 ;==========================================================
 
 [colors]
-background = #262626
+background = #282A2E
 background-alt = #373B41
 foreground = #C5C8C6
 primary = #F0C674
@@ -30,7 +30,6 @@ i3border = #333333
 i3background = #000000
 i3foreground = #ffffff
 i3green = #13e014
-bordercolor = #608f5b
 
 [bar/main]
 width = 100%
@@ -40,13 +39,13 @@ radius = 0
 
 dpi = 144
 
-background = ${colors.background}
+background = ${colors.i3blue}
 foreground = ${colors.i3foreground}
 
 underline-size = 0pt
 
 border-size = 1pt
-border-color = ${colors.bordercolor}
+border-color = #4c7899
 
 padding-left = 1
 padding-right = 0
@@ -125,7 +124,7 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
-mount-1 = /home
+; mount-1 = /home
 
 label-mounted = %{F#13e014}%mountpoint%%{F-} %percentage_used%%
 
@@ -141,7 +140,7 @@ format-volume = <label-volume>
 
 label-volume = %percentage%%
 
-label-muted = 
+label-muted = muted
 label-muted-foreground = ${colors.disabled}
 
 [module/xkeyboard]

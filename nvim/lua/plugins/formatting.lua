@@ -6,19 +6,13 @@ return {
 
 		conform.setup({
 			formatters_by_ft = {
-				javascript = { "prettier" },
-				typescript = { "prettier" },
-				css = { "prettier" },
-				html = { "prettier" },
 				json = { "prettier" },
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				lua = { "stylua" },
-				python = { "blue" },
+				-- python = { "blue" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
-				-- vue = { "prettierd" },
-				-- rust = { "rustfmt" },
 			},
 			format_on_save = {
 				lsp_fallback = false,

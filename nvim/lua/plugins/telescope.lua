@@ -19,15 +19,12 @@ return {
 						["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 					},
 				},
-			},
-			pickers = {
-				find_files = {
-					layout_strategy = "horizontal",
-					layout_config = {
-						preview_width = 0.65,
-					},
+				layout_strategy = "horizontal",
+				layout_config = {
+					horizontal = { width = 0.9, preview_width = 0.70 },
 				},
 			},
+			pickers = {},
 		})
 
 		telescope.load_extension("fzf")
@@ -36,6 +33,8 @@ return {
 		local keymap = vim.keymap
 
 		keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "在当前工作目录模糊查询" })
+		keymap.set("n", "<leader>fb", ":Telescope buffers<CR>")
+		keymap.set("n", "<leader>/", require("telescope.builtin").current_buffer_fuzzy_find)
 		keymap.set(
 			"n",
 			"<leader>fr",
@@ -44,11 +43,15 @@ return {
 		)
 		keymap.set(
 			"n",
-			"<leader>fs",
+			"<leader>fg",
 			"<cmd>Telescope live_grep<cr>",
 			{ desc = "在当前工作目录中查找字符串" }
 		)
-		keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "在当前文件中查找字符串" })
-		keymap.set("n", "<leader>fp", "<cmd>Telescope projects<cr>", { desc = "查找项目" })
+		keymap.set(
+			"n",
+			"<leader>fc",
+			"<cmd>Telescope grep_string<cr>",
+			{ desc = "在项目中查找当前光标所在字符串" }
+		)
 	end,
 }

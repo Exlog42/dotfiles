@@ -3,11 +3,11 @@ return {
 	event = { "BufReadPre", "BufNewFile" },
 	opts = {
 		toggler = {
-			line = "<leader>/",
+			line = "<C-/>",
 		},
 		---LHS of operator-pending mappings in NORMAL and VISUAL mode
 		opleader = {
-			line = "<leader>/",
+			line = "<C-/>",
 		},
 	},
 }

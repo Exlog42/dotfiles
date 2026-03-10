@@ -1,5 +1,6 @@
 return {
 	"ahmedkhalf/project.nvim", -- 项目管理插件
+	enabled = false,
 	dependencies = { "nvim-telescope/telescope.nvim" }, -- 依赖 Telescope 搜索
 	config = function()
 		require("project_nvim").setup({
