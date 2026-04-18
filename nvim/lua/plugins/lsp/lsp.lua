@@ -43,36 +43,69 @@ return {
 			keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
 			opts.desc = "Show line diagnostics"
-			keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+			keymap.set("n", "<leader>d", function()
+				local _, winid = vim.diagnostic.open_float()
+				if winid then
+					vim.api.nvim_set_current_win(winid)
+				end
+			end, opts) -- show diagnostics for line
 
 			opts.desc = "Go to previous diagnostic"
-			keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+			keymap.set("n", "[d", vim.diagnostic.jump, opts) -- jump to previous diagnostic in buffer
 
 			opts.desc = "Go to next diagnostic"
-			keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+			keymap.set("n", "]d", vim.diagnostic.jump, opts) -- jump to next diagnostic in buffer
 
 			opts.desc = "Show documentation for what is under cursor"
 			keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
 			opts.desc = "Restart LSP"
 			keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+			opts.desc = "Format document"
+			keymap.set({ "n", "v" }, "<leader>f", function()
+				vim.lsp.buf.format({ async = true })
+			end, opts)
 		end
 
 		-- used to enable autocompletion (assign to every lsp server config)
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
-		-- Change the Diagnostic symbols in the sign column (gutter)
-		-- local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-		-- for type, icon in pairs(signs) do
-		-- 	local hl = "DiagnosticSign" .. type
-		-- 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-		-- end
+		-- Configure UI for diagnostics and hover
+		vim.diagnostic.config({
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = " ",
+					[vim.diagnostic.severity.WARN] = " ",
+					[vim.diagnostic.severity.INFO] = " ",
+					[vim.diagnostic.severity.HINT] = "󰠠 ",
+				},
+			},
+			virtual_text = true,
+			update_in_insert = false,
+			underline = true,
+			severity_sort = true,
+			float = {
+				focusable = true,
+				style = "minimal",
+				border = "rounded",
+				source = "always",
+				header = "",
+				prefix = "",
+			},
+		})
+
+		-- Rounded borders for hover and signature help
+		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+		vim.lsp.handlers["textDocument/signatureHelp"] =
+			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
 		-- configure html server
 		vim.lsp.config("html", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
+		vim.lsp.enable("html")
 
 		vim.lsp.config("clangd", {
 			cmd = {
@@ -81,7 +114,6 @@ return {
 				"--header-insertion=iwyu",
 				"--completion-style=detailed",
 				"--fallback-style=Google",
-				"-header-insertion=never",
 			},
 			filetypes = { "c", "cpp", "c++", "cc" },
 			capabilities = capabilities,
@@ -93,6 +125,7 @@ return {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
+		vim.lsp.enable("jdtls")
 
 		-- lspconfig["vuels"].setup({
 		-- 	capabilities = capabilities,
@@ -103,11 +136,29 @@ return {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
+		vim.lsp.enable("vtsls")
 
 		-- configure python server
 		vim.lsp.config("basedpyright", {
 			capabilities = capabilities,
 			on_attach = on_attach,
+			settings = {
+				basedpyright = {
+					analysis = {
+						typeCheckingMode = "standard", -- 或 "strict"
+						autoSearchPaths = true,
+						useLibraryCodeForTypes = true,
+						diagnosticMode = "openFilesOnly",
+					},
+				},
+			},
+			on_init = function(client)
+				local env = vim.fn.getenv("CONDA_PREFIX") or vim.fn.getenv("VIRTUAL_ENV")
+				if env and env ~= vim.NIL then
+					client.config.settings.basedpyright.analysis.pythonPath = env .. "/bin/python"
+					client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+				end
+			end,
 		})
 		vim.lsp.enable("basedpyright")
 

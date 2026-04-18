@@ -145,6 +145,12 @@ bindsym $mod+Shift+minus move scratchpad
 # 呼出/隐藏暂存区窗口 (循环展示)
 bindsym $mod+minus scratchpad show
 
+# 专属暂存区：按“启动命令”分桶，不与其他窗口混用
+# 独立管理一个终端（用独立 class，避免和普通终端混在一起）
+bindsym $mod+F1 exec --no-startup-id python3 ~/.config/i3/command_scratchpad.py toggle 'ghostty'
+# 示例 2：独立管理一个 pavucontrol
+bindsym $mod+F2 exec --no-startup-id python3 ~/.config/i3/command_scratchpad.py toggle 'pavucontrol'
+
 ### 9. 特殊窗口规则 ###
 # 特定程序默认浮动
 for_window [class="(?i)virtualbox"] floating enable border normal
@@ -216,3 +222,4 @@ exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
 # 启动 pulseaudio
 exec --no-startup-id start-pulseaudio-x11
 exec --no-startup-id pa-applet
+exec --no-startup-id blueman-applet

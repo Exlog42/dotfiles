@@ -10,9 +10,9 @@ return {
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				lua = { "stylua" },
-				-- python = { "blue" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
+				python = { "ruff_format", "ruff_fix" },
 			},
 			format_on_save = {
 				lsp_fallback = false,
