@@ -72,3 +72,4 @@ if [ -f '/home/ryan1iu/y/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ryan1iu
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/ryan1iu/y/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ryan1iu/y/google-cloud-sdk/completion.zsh.inc'; fi
+export PATH="$HOME/.npm-global/bin:$PATH"
