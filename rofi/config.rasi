@@ -1,0 +1,143 @@
+
+// @theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+
+// @theme "/usr/share/rofi/themes/android_notification.rasi"
+/*******************************************************************************
+ * ROFI Color theme
+ * User: Ryan1iu (Geek Retro-Pixel Mode)
+ * Font: GohuFont 14 Nerd Font Propo
+ * Base: Rasi
+ *******************************************************************************/
+
+* {
+    /* 核心色彩定义 */
+    geek-green:                  #13e014;
+    dark-bg:                     #212121;
+    dark-bg-alt:                 #282828;
+    soft-white:                  #e0e0e0;
+    pure-black:                  #000000;
+
+    /* 字体：根据你的要求更换为 GohuFont */
+    font:                        "GohuFont 14 Nerd Font Propo 12";
+
+    /* 变量映射 */
+    background:                  @dark-bg;
+    foreground:                  @soft-white;
+    
+    normal-background:           @background;
+    normal-foreground:           @foreground;
+
+    selected-normal-background:  @geek-green;
+    selected-normal-foreground:  @pure-black;
+
+    alternate-normal-background: @dark-bg-alt;
+    alternate-normal-foreground: @foreground;
+
+    border-color:                @geek-green;
+    separatorcolor:              @geek-green;
+    
+    spacing:                     2;
+    background-color:            rgba(0, 0, 0, 0%);
+}
+
+window {
+    background-color: @background;
+    border:           2;
+    padding:          8;
+    height:           400px;
+    width:            700px;
+}
+
+mainbox {
+    border:  0;
+    padding: 2;
+}
+
+message {
+    border:       2px 0px 0px;
+    border-color: @separatorcolor;
+    padding:      2px;
+}
+
+textbox {
+    text-color: @foreground;
+}
+
+listview {
+    fixed-height: 0;
+    border:       1px 0px 0px;
+    border-color: @separatorcolor;
+    spacing:      4px;         /* 稍微增加间距以适应 14 号像素风字体 */
+    scrollbar:    false;
+    padding:      5px 0px 0px;
+}
+
+element {
+    border:  0;
+    padding: 5px 10px;        /* 调整垂直内边距，使像素字体居中感更好 */
+}
+
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+}
+
+/* 状态映射逻辑 */
+element.normal.normal {
+    background-color: @normal-background;
+    text-color:       @normal-foreground;
+}
+element.normal.urgent {
+    background-color: @urgent-background;
+    text-color:       @urgent-foreground;
+}
+element.normal.active {
+    background-color: @active-background;
+    text-color:       @active-foreground;
+}
+element.selected.normal {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+element.selected.urgent {
+    background-color: @selected-urgent-background;
+    text-color:       @selected-urgent-foreground;
+}
+element.selected.active {
+    background-color: @selected-active-background;
+    text-color:       @selected-active-foreground;
+}
+element.alternate.normal {
+    background-color: @alternate-normal-background;
+    text-color:       @alternate-normal-foreground;
+}
+
+/* 输入框 */
+inputbar {
+    spacing:    0;
+    text-color: @geek-green;
+    padding:    5px 8px;
+    children:   [ prompt, textbox-prompt-colon, entry, case-indicator ];
+}
+
+prompt {
+    spacing:    0;
+    text-color: @geek-green;
+}
+
+textbox-prompt-colon {
+    expand:     false;
+    str:        ">";
+    margin:     0px 0.3em 0em 0em;
+    text-color: @geek-green;
+}
+
+entry {
+    spacing:    0;
+    text-color: @geek-green;
+}
+
+case-indicator {
+    spacing:    0;
+    text-color: @geek-green;
+}
