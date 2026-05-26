@@ -1,26 +1,34 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-	opts = {
-		-- A list of parser names, or "all"
-		-- ensure_installed = { "c", "cpp", "python", "cmake", "bash", "json", "make", "yaml", "lua", "rust" },
-		ensure_installed = { "all" },
+	branch = "main",
+	build = ":TSUpdate",
+	config = function()
+		require("nvim-treesitter").setup({
+			install_dir = vim.fn.stdpath("data") .. "/site",
+		})
 
-		-- Install parsers synchronously (only applied to `ensure_installed`)
-		sync_install = true,
+		-- 安装常用语言 parser
+		require("nvim-treesitter").install({
+			"go",
+			"c",
+			"cpp",
+			"python",
+			"lua",
+			"bash",
+			"json",
+			"markdown",
+			"markdown_inline",
+			"yaml",
+			"vim",
+			"vimdoc",
+			"query",
+		})
 
-		-- Automatically install missing parsers when entering buffer
-		-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-		auto_install = true,
-
-		highlight = {
-			-- `false` will disable the whole extension
-			enable = true,
-
-			-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-			-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-			-- Using this option may slow down your editor, and you may see some duplicate highlights.
-			-- Instead of true it can also be a list of languages
-			additional_vim_regex_highlighting = false,
-		},
-	},
+		-- 对所有文件类型启用 treesitter 高亮
+		vim.api.nvim_create_autocmd("FileType", {
+			callback = function()
+				pcall(vim.treesitter.start)
+			end,
+		})
+	end,
 }

@@ -27,10 +27,10 @@ return {
 		git = {
 			ignore = false,
 		},
-		sync_root_with_cwd = true,
+		sync_root_with_cwd = false, -- 关闭：否则 update_cwd 会被它抵消
+		respect_buf_cwd = true,
+		update_cwd = true, -- 在文件树里按 <C-]> 切换目录时会同步全局 cwd
 		-- 禁用git根目录检测
 		prefer_startup_root = false
-		-- respect_buf_cwd = true,
-		-- update_cwd = true,
 	},
 }

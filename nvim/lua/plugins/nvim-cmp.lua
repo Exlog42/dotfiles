@@ -45,7 +45,7 @@ return {
 				{ name = "path" }, -- file system paths
 			}),
 			-- configure lspkind for vs-code like pictograms in completion menu
-			formatting = {
+			formatters = {
 				format = lspkind.cmp_format({
 					maxwidth = 30,
 					ellipsis_char = "...",

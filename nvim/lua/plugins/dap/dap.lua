@@ -10,34 +10,37 @@ return {
 		local dapui = require("dapui")
 		local dap_vt = require("nvim-dap-virtual-text")
 
-		-- 配置调试适配器
-		dap.adapters.cppdbg = {
-			id = "cppdbg",
-			type = "executable",
-			command = "/home/ryan/.local/share/nvim/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7", -- 修改为你的路径
-		}
+		-- 配置调试适配器（需要先通过 Mason 安装 cpptools: `:Mason install cpptools`）
+		local mason_path = vim.fn.stdpath("data") .. "/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7"
+		if vim.uv.fs_stat(mason_path) then
+			dap.adapters.cppdbg = {
+				id = "cppdbg",
+				type = "executable",
+				command = mason_path,
+			}
 
-		-- 配置调试任务
-		dap.configurations.c = {
-			{
-				name = "Launch file",
-				type = "cppdbg",
-				request = "launch",
-				program = function()
-					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-				end,
-				cwd = "${workspaceFolder}",
-				stopAtEntry = true,
-				setupCommands = {
-					{
-						text = "-enable-pretty-printing",
-						description = "Enable GDB pretty printing",
-						ignoreFailures = false,
+			-- 配置调试任务
+			dap.configurations.c = {
+				{
+					name = "Launch file",
+					type = "cppdbg",
+					request = "launch",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					end,
+					cwd = "${workspaceFolder}",
+					stopAtEntry = true,
+					setupCommands = {
+						{
+							text = "-enable-pretty-printing",
+							description = "Enable GDB pretty printing",
+							ignoreFailures = false,
+						},
 					},
 				},
-			},
-		}
-		dap.configurations.cpp = dap.configurations.c
+			}
+			dap.configurations.cpp = dap.configurations.c
+		end
 
 		-- 配置 UI
 		dapui.setup()

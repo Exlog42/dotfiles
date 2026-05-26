@@ -3,5 +3,10 @@ return {
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
 	},
+	opts = {
+		ensure_installed = {
+			"ruff",
+		},
+	},
 	config = true,
 }

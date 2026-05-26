@@ -57,14 +57,20 @@ return {
 			keymap.set("n", "]d", vim.diagnostic.jump, opts) -- jump to next diagnostic in buffer
 
 			opts.desc = "Show documentation for what is under cursor"
-			keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+			keymap.set("n", "K", function()
+			vim.lsp.buf.hover({
+				border = "rounded",
+				max_width = 80,
+				max_height = 20,
+			})
+		end, opts)
 
 			opts.desc = "Restart LSP"
 			keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 
 			opts.desc = "Format document"
 			keymap.set({ "n", "v" }, "<leader>f", function()
-				vim.lsp.buf.format({ async = true })
+				vim.lsp.buf.format()
 			end, opts)
 		end
 
@@ -95,10 +101,12 @@ return {
 			},
 		})
 
-		-- Rounded borders for hover and signature help
-		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-		vim.lsp.handlers["textDocument/signatureHelp"] =
-			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+		-- Rounded borders for signature help
+		vim.lsp.config("*", {
+			handlers = {
+				["textDocument/signatureHelp"] = { border = "rounded" },
+			},
+		})
 
 		-- configure html server
 		vim.lsp.config("html", {
@@ -106,6 +114,27 @@ return {
 			on_attach = on_attach,
 		})
 		vim.lsp.enable("html")
+
+		-- configure go server
+		vim.lsp.config("gopls", {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = {
+				gopls = {
+					hints = {
+						assignVariableTypes = true,
+						compositeLiteralFields = true,
+						compositeLiteralTypes = true,
+						constantValues = true,
+						functionTypeParameters = true,
+						parameterNames = true,
+						rangeVariableTypes = true,
+					},
+					gofumpt = true,
+				},
+			},
+		})
+		vim.lsp.enable("gopls")
 
 		vim.lsp.config("clangd", {
 			cmd = {
