@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 vim.keymap.set("n", "<leader>m", "<cmd>Outline<CR>")
 vim.keymap.set("n", "<leader>t", "<cmd>NvimTreeToggle<CR>")
 vim.keymap.set("n", "<leader>R", "<cmd>source $MYVIMRC<CR>", { desc = "重载 core 配置" })

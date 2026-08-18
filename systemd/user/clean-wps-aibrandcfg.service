@@ -1,0 +1,8 @@
+[Unit]
+Description=Clean up WPS aibrandcfg file from home directory
+
+[Service]
+Type=oneshot
+StartLimitIntervalSec=5
+StartLimitBurst=20
+ExecStart=/usr/bin/rm -f /home/ryan1iu/HKEY_CURRENT_USER\\Software\\kingsoft\\Office\\6.0\\plugins\\kcopilotentrylite\\aibrandcfg

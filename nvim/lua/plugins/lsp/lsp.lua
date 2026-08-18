@@ -58,10 +58,11 @@ return {
 
 			opts.desc = "Show documentation for what is under cursor"
 			keymap.set("n", "K", function()
-			vim.lsp.buf.hover({
+			local _, winid = vim.lsp.buf.hover({
 				border = "rounded",
 				max_width = 80,
 				max_height = 20,
+				focusable = false,
 			})
 		end, opts)
 
@@ -212,5 +213,29 @@ return {
 			},
 		})
 		vim.lsp.enable("lua_ls")
+
+		-- configure LaTeX server
+		vim.lsp.config("texlab", {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = {
+				texlab = {
+					build = {
+						executable = "latexmk",
+						args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+						onSave = false,
+					},
+					forwardSearch = {
+						executable = "okular",
+						args = { "--unique", "file:%p#src:%l%f" },
+					},
+					chktex = {
+						onOpenAndSave = true,
+					},
+					diagnosticsDelay = 300,
+				},
+			},
+		})
+		vim.lsp.enable("texlab")
 	end,
 }

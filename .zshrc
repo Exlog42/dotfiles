@@ -1,5 +1,10 @@
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:/home/ryan1iu/miniconda3/bin:$PATH
+export PATH="$HOME/go/bin:$PATH"
 export EDITOR='nvim'
+export SUDO_ASKPASS="$HOME/.local/bin/askpass"
+alias sudo='sudo -A'
+# Set DEEPSEEK_API_KEY in a local, untracked file or your environment.
+[[ -r "$HOME/.config/secrets/deepseek.zsh" ]] && source "$HOME/.config/secrets/deepseek.zsh"
 #export LIBGL_ALWAYS_SOFTWARE=1 # 禁用wslg硬件加速
 export TERM=xterm-256color
 
@@ -39,8 +44,8 @@ fpath+=(/home/ryan1iu/.zsh/pure)
 autoload -U promptinit; promptinit
 prompt pure
 
-alias ll="exa -al --icons"
-alias ls="exa -l --icons"
+alias ll="exa --icons -al"
+alias ls="exa --icons -l"
 alias vim="nvim"
 alias cl="clear"
 alias ..="cd .."
@@ -73,3 +78,6 @@ if [ -f '/home/ryan1iu/y/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ryan1iu
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/ryan1iu/y/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ryan1iu/y/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH="$HOME/.npm-global/bin:$PATH"
+
+# OpenClaw Completion
+source "/home/ryan1iu/.openclaw/completions/openclaw.zsh"

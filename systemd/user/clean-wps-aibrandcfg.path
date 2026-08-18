@@ -1,0 +1,8 @@
+[Unit]
+Description=Watch for WPS aibrandcfg file creation
+
+[Path]
+PathExists=/home/ryan1iu/HKEY_CURRENT_USER\Software\kingsoft\Office\6.0\plugins\kcopilotentrylite\aibrandcfg
+
+[Install]
+WantedBy=default.target

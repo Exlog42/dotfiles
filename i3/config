@@ -6,7 +6,7 @@
 # 定义超级键 (Mod1 为 Alt)
 set $mod Mod1
 # 设置默认字体
-font pango:monospace 10 
+font pango:LXGW WenKai Medium 11 
 # 允许使用鼠标拖拽浮动窗口
 floating_modifier $mod
 # 焦点跟随鼠标
@@ -28,7 +28,7 @@ client.focused #4c7899 #285577 #FFFFFF #233f66 #233f66
 
 ### 3. 系统核心快捷键 ###
 # 启动终端
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec kitty
 # 关闭当前聚焦窗口
 bindsym $mod+q kill
 # 启动应用启动器 (Rofi)
@@ -45,7 +45,8 @@ bindsym XF86MonBrightnessDown exec brightnessctl s 5%-
 # 音量控制器面板
 bindsym $mod+Ctrl+m exec pavucontrol
 # 截图工具 (Flameshot)
-bindsym F1 exec env QT_SCALE_FACTOR=0.6666666 flameshot gui
+bindsym $mod+v exec copyq toggle
+bindsym --release F1 exec --no-startup-id env QT_SCALE_FACTOR=0.6666666 flameshot gui -d 3000
 
 ### 5. 焦点与窗口移动 ###
 # 切换焦点 (Vim键位 & 方向键)
@@ -154,6 +155,8 @@ bindsym $mod+F2 exec --no-startup-id python3 ~/.config/i3/command_scratchpad.py 
 ### 9. 特殊窗口规则 ###
 # 特定程序默认浮动
 for_window [class="(?i)virtualbox"] floating enable border normal
+# 为 Kitty 设置默认窗口尺寸
+for_window [class="^ghostty$"] floating enable
 # 自动聚焦到发出紧急通知 (Urgent) 的窗口
 for_window [urgent=latest] focus
 
@@ -196,14 +199,21 @@ mode "$mode_system" {
 }
 
 ### 11. 自启动项 (Autostart) ###
+# 外接显示器 (Type-C 一线通) 热插拔自动切换 (由 autorandr 管理)
+exec_always --no-startup-id autorandr --change
+
+# 设置根窗口光标
+exec --no-startup-id xsetroot -cursor_name left_ptr
 
 # 系统权限认证代理
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # UI 与状态栏
 exec_always --no-startup-id killall polybar; polybar
-exec --no-startup-id nitrogen --restore; sleep 1; picom -b 
+exec --no-startup-id /home/ryan1iu/llm-tray/start-llm-tray.sh
+exec --no-startup-id ~/.config/i3/set_wallpapers.sh; sleep 1; picom -b
 exec --no-startup-id dunst
+exec --no-startup-id copyq
 
 # 输入法与网络
 exec --no-startup-id fcitx5
